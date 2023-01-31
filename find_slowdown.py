@@ -1,5 +1,8 @@
 import subprocess
 
+# Copy this script in the root directory of a Ruby repo, then hand
+# edit start_from if needed
+
 def exec_cmd(command):
     p = subprocess.Popen(
         command,
@@ -26,8 +29,9 @@ files = files_str.split()
 
 exec_cmd("mkdir -p profile_results")
 
+# if there's a bug that crashes the script, make it resume from this testcase
 start_from = 'spec/requests/stories/tagged_articles_spec.rb'
-#start_from = None
+start_from = None
 
 file_times = {}
 for file in files:
