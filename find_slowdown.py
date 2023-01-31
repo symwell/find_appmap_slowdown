@@ -1,4 +1,5 @@
 import subprocess
+import time
 
 # Copy this script in the root directory of a Ruby repo, then hand
 # edit start_from if needed
@@ -30,7 +31,7 @@ files = files_str.split()
 exec_cmd("mkdir -p profile_results")
 
 # if there's a bug that crashes the script, make it resume from this testcase
-start_from = 'spec/requests/stories/tagged_articles_spec.rb'
+start_from = 'spec/requests/admin/privileged_reactions_spec.rb'
 start_from = None
 
 file_times = {}
@@ -48,9 +49,14 @@ for file in files:
         if mode == 'true':
             padding = '  '
         print("  APPMAP=" + mode + padding, end='', flush=True)
+        # get times from rspec
+        time_start = time.time()
         exec_cmd("APPMAP=" + mode +" RAILS_ENV=test bundle exec rspec " + file + " > profile_results/test_" + mode + "___" + file_no_slashes)
+        time_stop = time.time()
         runtime_str = exec_cmd("cat profile_results/test_" + mode + "___" + file_no_slashes + " | grep 'Finished in' | sed -e 's/.*Finished in //g' | sed -e 's/(.*//g' | xargs echo -n")
         runtime = rspec_runtime_str_to_secs(runtime_str)
+        # or get wall-clock time
+        # runtime = time_stop - time_start
         file_times[file][mode] = { "runtime": runtime }        
         print(round(runtime, 2), flush=True)
 
