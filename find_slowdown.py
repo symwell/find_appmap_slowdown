@@ -52,7 +52,7 @@ for file in files:
         runtime_str = exec_cmd("cat profile_results/test_" + mode + "___" + file_no_slashes + " | grep 'Finished in' | sed -e 's/.*Finished in //g' | sed -e 's/(.*//g' | xargs echo -n")
         runtime = rspec_runtime_str_to_secs(runtime_str)
         file_times[file][mode] = { "runtime": runtime }        
-        print(runtime, flush=True)
+        print(round(runtime, 2), flush=True)
 
     factor = file_times[file]["true"]["runtime"] / file_times[file]["false"]["runtime"]
     factor = round(factor, 2)
