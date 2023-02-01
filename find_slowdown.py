@@ -21,7 +21,7 @@ def rspec_runtime_str_to_secs(runtime_str):
         return float(values[0]) * 60 + float(values[2])
     else:
         # only seconds
-        values = runtime_str.split("seconds")
+        values = runtime_str.split("second") # parses both second and seconds
         return float(values[0])
 
 
